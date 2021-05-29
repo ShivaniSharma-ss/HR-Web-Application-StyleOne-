@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<title> HR Application </title>
+<script>
+function validateForm(frm)
+{
+var firstInvalidComponent=null;
+var valid=true;
+var name=frm.name.value.trim();
+var nameErrorSection=document.getElementById('nameErrorSection');
+nameErrorSection.innerHTML='';
+if(name.length==0)
+{
+nameErrorSection.innerHTML='Name required';
+frm.name.focus();
+valid=false;
+firstInvalidComponent=frm.name;
+}
+
+var designationCode=frm.designationCode.value.trim();
+var designationCodeErrorSection=document.getElementById('designationCodeErrorSection');
+designationCodeErrorSection.innerHTML='';
+if(designationCode==-1)
+{
+designationCodeErrorSection.innerHTML='Select Designation';
+valid=false;
+if(firstInvalidComponent==null) firstInvalidComponent=frm.designationCode;
+}
+
+var dateOfBirth=frm.dateOfBirth.value;
+var dateOfBirthErrorSection=document.getElementById('dateOfBirthErrorSection');
+dateOfBirthErrorSection.innerHTML='';
+if(dateOfBirth.length==0)
+{
+dateOfBirthErrorSection.innerHTML='Select Date Of Birth';
+if(firstInvalidComponent==null)firstInvalidComponent=frm.dateOfBirth;
+}
+
+var gender=frm.gender.value.trim();
+var genderErrorSection=document.getElementById('genderErrorSection');
+genderErrorSection.innerHTML='';
+if(frm.gender[0].checked==false && frm.gender[1].checked==false)
+{
+genderErrorSection.innerHTML='Select Gender';
+valid=false;
+}
+
+var basicSalary=frm.basicSalary.value.trim();
+var basicSalaryErrorSection=document.getElementById('basicSalaryErrorSection');
+basicSalaryErrorSection.innerHTML='';
+if(basicSalary.length==0)
+{
+basicSalaryErrorSection.innerHTML='Basic Salary Required';
+valid=false;
+if(firstInvalidComponent==null)firstInvalidComponent=frm.basicSalary;
+}
+else
+{
+var v='0123456789.';
+var e=0;
+var isBasicSalaryValid=true;
+while(e<basicSalary.length)
+{
+if(v.indexOf(basicSalary.charAt(e))==-1)
+{
+alert();
+basicSalaryErrorSection.innerHTML='Invalid basic salary';
+valid=false;
+if(firstInvalidComponent==null)firstInvalidComponent=frm.basicSalary;
+isBasicSalaryValid=false;
+break;
+}
+e++;
+}
+if(isBasicSalaryValid)
+{
+var dot=basicSalary.indexOf('.');
+if(dot!=-1)
+{
+var numberOfFractions=basicSalary.length-(dot+1);
+if(numberOfFractions>2)
+{
+basicSalaryErrorSection.innerHTML='Invalid basic salary';
+valid=false;
+if(firstInvalidComponent==null)firstInvalidComponent=frm.basicSalary;
+}
+}
+}
+}
+
+
+var panNumber=frm.panNumber.value.trim();
+var panNumberErrorSection=document.getElementById('panNumberErrorSection');
+panNumberErrorSection.innerHTML='';
+if(panNumber.length==0)
+{
+panNumberErrorSection.innerHTML='PAN Number required';
+valid=false;
+if(firstInvalidComponent==null) firstInvalidComponent=frm.panNumber;
+}
+
+var aadharCardNumber=frm.aadharCardNumber.value.trim();
+var aadharCardNumberErrorSection=document.getElementById('aadharCardNumberErrorSection');
+aadharCardNumberErrorSection.innerHTML='';
+if(aadharCardNumber.length==0)
+{
+aadharCardNumberErrorSection.innerHTML='Aadhar Card Number required';
+valid=false;
+if(firstInvalidComponent==null) firstInvalidComponent=frm.aadharCardNumber;
+}
+
+
+
+if(!valid) firstInvalidComponent.focus();
+return valid;
+}
+function cancelAddition()
+{
+document.getElementById('cancelAdditionForm').submit();
+}
+</script>
+</head>
+<body>
+<!--  Main Container starts here  -->
+<div style='width:90hw;height:auto;border:1px solid black'>
+<!--  header starts here  -->
+<div style='margin:5px;width:90hw;height:auto;border:1px solid black'>
+<img src='/styleone/images/logo.png' style='float:left'><div style='margin-top:9px;margin-bottom:9px;font-size:20pt'>Thinking Machines</div> 
+</div><!-- header ends here  -->
+<!--  content section starts here  -->
+<div style='width:90hw;height:70vh;margin:5px;border:1px solid white'>
+<!-- left panel starts here -->
+<div style='height:65vh;margin:5px;float:left;padding:5px;border:1px solid black'>
+<b>Employees</b><br>
+<a href='/styleone/designationsView'>Designations</a><br><br>
+<a href='/styleone/index.html'>Home</a>
+</div>
+<!-- left panel ends here -->
+<!-- right panel starts here -->
+<div style='height:65vh;margin-left:105px;margin-right:5px;margin-bottom-5px;margin-top:5px;padding:5px;border:1px solid black'>
+<h2>Employee(Add Module)</h2>
+<form method='post' action='/styleone/addEmployee' onSubmit='return validateForm(this)'>
+<table>
+<tr>
+<td>Name</td>
+<td><input type='text' id='name' name='name' maxlength='50' size='51'>
+<span id='nameErrorSection' style='color:red'></span><br></td>
+</tr>
+<tr>
+<td>Designation</td>
+<td><select id='designationCode' name='designationCode'>
+<option value='-1'>&lt;Select Designation&gt;</option>
+<option value='1'>Manager</option>
+<option value='2'>CLerk</option>
+<option value='3'>Doctor</option>
+<option value='4'>Engineer</option>
+<option value='5'>Assistant</option>
+</select>
+<span id='designationCodeErrorSection' style='color:red'></span>
+</td>
+</tr>
+
+<tr>
+<td>Date Of Birth</td>
+<td><input type='date' id='dateOfBirth' name='dateOfBirth'>
+<span id='dateOfBirthErrorSection' style='color:red'></span>
+</td>
+</tr>
+<tr>
+<td>Gender</td>
+<td><input type='radio' id='Male' name='gender' value='M'>Male
+&nbsp;&nbsp;&nbsp;&nbsp;
+<input type='radio' id='Female' name='gender' value='F'>Female
+<span id='genderErrorSection' style='color:red'></span>
+</td>
+</tr>
+<tr>
+<td>Indian ?</td>
+<td><input type='checkbox' name='isIndian' id='isIndian'></td>
+</tr>
+<tr>
+<td>Basic Salary</td>
+<td>
+<input type='text' style='text-align:right' name='basicSalary' id='basicSalary'>
+<span id='basicSalaryErrorSection' style='color:red'></span>
+</td>
+</tr>
+<tr>
+<tr>
+<td>PAN Number</td>
+<td>
+<input type='text' name='panNumber' id='panNumber'maxlength='15' size='16'>
+<span id='panNumberErrorSection' style='color:red'></span>
+</td>
+</tr>
+<tr>
+<td>AadharCard Number</td>
+<td>
+<input type='text' name='aadharCardNumber' id='aadharCardNumber'maxlength='15' size='16'>
+<span id='aadharCardNumberErrorSection' style='color:red'></span>
+</td>
+</tr>
+<td colspan='2'><button type='submit'>Add</button>
+&nbsp;<button type='Button' onClick='cancelAddition()'>Cancel</button>
+</tr>
+</table>
+</form>
+</div>
+<!-- right panel ends here -->
+</div>
+<!-- content section ends here  -->
+<!-- footer starts here -->
+<div style='width:90hw;height:auto;margin:5px;text-align:center;border:1px solid white'>
+&copy;Thinking Machines 2020
+</div>
+<!-- footer ends here -->
+</div> <!--  Main Container ends here  -->
+<form id='cancelAdditionForm' action='/styleone/employeesView'>
+</form>
+</body>
+</html>
